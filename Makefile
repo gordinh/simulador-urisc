@@ -34,7 +34,7 @@ TARNAME      	:= tp_grupo4
 TARCONTENT		:= src/ bin/ Makefile
 
 # ------------ list of modules -------------------------------------------------
-MODULES			:= main
+MODULES			:= main memoria
 
 # ------------  compiler  ------------------------------------------------------
 CC				:= gcc
@@ -106,6 +106,10 @@ check: all
 ${OBJDIR}/main.o:	${SRCDIR}/main.c
 			@echo "Compilando Modulo Principal"
 			@${C_FINAL} $(CFLAGS_FINAL) -c $< -o $@
+
+${OBJDIR}/memoria.o:	${SRCDIR}/memoria.c ${SRCDIR}/memoria.h
+			@echo "Compilando Módulo Memória"
+		@${C_FINAL} $(CFLAGS_FINAL) -c $< -o $@
 
 #${OBJDIR}/modulo.o:	${SRCDIR}/modulo.c ${SRCDIR}/modulo.h
 #			@echo "Compilando Modulo <NOME>"

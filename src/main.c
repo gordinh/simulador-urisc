@@ -1,3 +1,11 @@
+/*
+ * 
+ *      Arquivo: main.c
+ *        Autor: 
+ *        email:
+ *
+ */
+
 #include <stdlib.h>
 #include <stdio.h>
 

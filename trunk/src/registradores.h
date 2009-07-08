@@ -1,10 +1,10 @@
-#ifndef __MEMORIA_H_INCLUDED__
-#define __MEMORIA_H_INCLUDED__
+#ifndef __REGISTRADORES_H_INCLUDED__
+#define __REGISTRADORES_H_INCLUDED__
 
 /*
  * =============================================================================
  *
- *      Arquivo: memoria.h
+ *      Arquivo: registradores.h
  *        Autor: Leonardo Vilela Teixeira
  *        email: vilela@dcc.ufmg.br
  *
@@ -19,18 +19,28 @@
 /* ========================== ESTRUTURAS DE DADOS =========================== */
 /* ************************************************************************** */
 
-typedef struct mem_str
+typedef bool Registrador[BITS_ARQ];
+
+/* ========================================================================== */
+
+typedef struct bnc_reg_str
 {
-    Word posicao[TAM_MEMORIA];
-} Memoria;
+    Registrador Regs[NUM_REGS];
+} Banco_de_Registradores;
 
 /* ************************************************************************** */
 /* ================================ FUNÇÕES ================================= */
 /* ************************************************************************** */
 
-void Mem_Escreve_Endereco( Memoria * M, Word Endereco, Word Dados );
-void Mem_Le_Endereco( Memoria M, Word Endereco, Word Destino );
+void Reg_Escreve_Word( Registrador * R, Word W );
+void Reg_Le_Word( Registrador R, Word Destino );
+
+/* ========================================================================== */
+
+void B_Reg_Escreve_Word( Banco_de_Registradores * B, bool reg_num[3], Word D );
+void B_Reg_Le_Word( Banco_de_Registradores B, bool reg_num[3], Word Destino );
+
 
 /* ************************************************************************** */
 
-#endif /* __MEMORIA_H_INCLUDED__ */
+#endif /* __REGISTRADORES_H_INCLUDED__ */

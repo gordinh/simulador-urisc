@@ -12,6 +12,7 @@
 
 #include "defs.h"
 #include "registradores.h"
+#include "memoria.h"
 #include "alu.h"
 
 /* ************************************************************************** */
@@ -39,10 +40,13 @@ typedef struct bc_str
 /* ================================ FUNÇÕES ================================= */
 /* ************************************************************************** */
 
-void Instruction_Fetch(Registrador * PC, Registrador * IR, Flags_ALU * Flags);
+void Instruction_Fetch(Memoria Mem, Registrador * PC, Registrador * IR, 
+        Flags_ALU * Flags);
 void Instruction_Decode( Banco_de_Registradores B_Reg, Registrador IR, 
-        Registrador * A, Registrador * B )
-void Execute_and_Memory();
+        Registrador * A, Registrador * B );
+void Execute_and_Memory( Memoria * Mem, Bits_Controle bc, Registrador A, 
+        Registrador B, Registrador * Saida_ALU, Registrador * Reg_Dados, 
+        Registrador * C );
 void Write_Back();
 
 /* ************************************************************************** */

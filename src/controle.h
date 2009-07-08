@@ -11,6 +11,7 @@
  */
 
 #include "defs.h"
+#include "constantes.h"
 #include "registradores.h"
 #include "memoria.h"
 #include "alu.h"
@@ -45,8 +46,8 @@ void Instruction_Fetch(Memoria Mem, Registrador * PC, Registrador * IR,
 void Instruction_Decode( Banco_de_Registradores B_Reg, Registrador IR, 
         Registrador * A, Registrador * B );
 void Execute_and_Memory( Memoria * Mem, Bits_Controle bc, Registrador A, 
-        Registrador B, Registrador * Saida_ALU, Registrador * Reg_Dados, 
-        Registrador * C );
+        Registrador B, Registrador Temp, Registrador * Saida_ALU,
+        Registrador * Reg_Dados, Registrador * C, Registrador IR );
 void Write_Back();
 
 /* ************************************************************************** */

@@ -86,8 +86,8 @@ void Instruction_Decode( Banco_de_Registradores B_Reg, Registrador IR,
  *  executa e opera na memória.
  */
 void Execute_and_Memory( Memoria * Mem, Bits_Controle bc, Registrador A, 
-        Registrador B, Registrador * Saida_ALU, Registrador * Reg_Dados, 
-        Registrador * C )
+        Registrador B, Registrador Temp, Registrador * Saida_ALU,
+        Registrador * Reg_Dados, Registrador * C, Registrador IR )
 {
     /* LêMem => Lê da memória */
     if (bc.LeMem)
@@ -116,6 +116,9 @@ void Execute_and_Memory( Memoria * Mem, Bits_Controle bc, Registrador A,
         Reg_Le_Word(B, Dados);
         Mem_Escreve_Endereco(Mem, End, Dados);
     }
+
+    /* Constante => Cria a constante e armazena em C */
+    Opera_Constantes( C, bc.Constante, IR);
 }
 
 /* ************************************************************************** */

@@ -31,7 +31,7 @@ void Const_Opera_Formato_III( Word *C, bool *R, bool offset[8]);
 void Const_Estende_e_Carrega_Constante( Word *C, bool offset[11]);
 
 /* ========================================================================== */
-void Opera_Constantes( Registrador *Destino, bool bit_constante, Registrador *IR);
+void Opera_Constantes( Registrador *Destino, bool bit_constante, Registrador IR);
 
 /* ************************************************************************** */
 

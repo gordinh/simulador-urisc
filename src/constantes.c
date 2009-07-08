@@ -62,11 +62,11 @@ void Const_Estende_e_Carrega_Constante( Word *C, bool offset[11])
 
 /* ===================================================================================== */
 
-void Opera_Constantes( Registrador *Destino, bool bit_constante, Registrador *IR)
+void Opera_Constantes( Registrador *Destino, bool bit_constante, Registrador IR)
 {
     int i;
     Word instrucao;
-    Reg_Le_Word( *IR, instrucao);
+    Reg_Le_Word( IR, instrucao);
     //Se a instrução é do tipo II.
     if( bit_constante == 0 ) {
         bool offset[11];

@@ -34,7 +34,7 @@ TARNAME      	:= tp_grupo4
 TARCONTENT		:= src/ bin/ Makefile
 
 # ------------ list of modules -------------------------------------------------
-MODULES			:= main registradores memoria alu controle
+MODULES			:= main registradores memoria alu controle constantes
 
 # ------------  compiler  ------------------------------------------------------
 CC				:= gcc
@@ -121,6 +121,10 @@ ${OBJDIR}/alu.o:	${SRCDIR}/alu.c ${SRCDIR}/alu.h
 
 ${OBJDIR}/controle.o:	${SRCDIR}/controle.c ${SRCDIR}/controle.h
 		@echo "Compilando Módulo Controle"
+		@${C_FINAL} $(CFLAGS_FINAL) -c $< -o $@
+
+${OBJDIR}/constantes.o:	${SRCDIR}/constantes.c ${SRCDIR}/constantes.h
+		@echo "Compilando Módulo Constantes"
 		@${C_FINAL} $(CFLAGS_FINAL) -c $< -o $@
 
 #${OBJDIR}/modulo.o:	${SRCDIR}/modulo.c ${SRCDIR}/modulo.h

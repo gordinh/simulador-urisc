@@ -9,6 +9,7 @@
  */
 
 #include "constantes.h"
+#include "registradores.h"
 
 /* ************************************************************************************ */
 /* ============================== UNIDADE DE CONSTANTES =============================== */
@@ -59,4 +60,36 @@ void Const_Estende_e_Carrega_Constante( Word *C, bool offset[11])
         (*C)[i] = offset[i - (BITS_ARQ - 11)];
 }
 
+/* ===================================================================================== */
+
+void Opera_Constantes( Registrador *Destino, bool bit_constante, Registrador *IR)
+{
+    int i;
+    Word instrucao;
+    Reg_Le_Word( *IR, instrucao);
+    //Se a instrução é do tipo II.
+    if( bit_constante == 0 ) {
+        bool offset[11];
+        for(i = 0; i < 11; i++)
+            offset[i] = instrucao[(BITS_ARQ - 11) + i];
+
+        Word temp;
+        Const_Estende_e_Carrega_Constante( &temp, offset );
+        //Escreve a constante no registrador temporário.
+        Reg_Escreve_Word(Destino, temp);
+    }
+
+    //Se a instrução é do tipo III.
+    else {
+        bool R = instrucao[5];
+        bool offset[8];
+        for(i = 0; i < 8; i++)
+            offset[i] = instrucao[(BITS_ARQ - 8) + i];
+
+        Word temp;
+        Const_Opera_Formato_III( &temp, &R, offset );
+        //Escreve a constante no registrador temporário.
+        Reg_Escreve_Word(Destino, temp);
+    }
+}
 /* ************************************************************************************ */

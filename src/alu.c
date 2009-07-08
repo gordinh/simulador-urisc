@@ -29,6 +29,7 @@ void ALU_add(Word A, Word B, bool Cin, bool * Cout, Word C, bool * Overflow)
             || (!tmp_A && !tmp_B && tmp_Cin) || (tmp_A && tmp_B && tmp_Cin);
         tmp_Cin = (tmp_A && tmp_B) || (tmp_B && tmp_Cin) || (tmp_A && tmp_Cin);
     }
+
     (*Cout) = tmp_Cin;
     *Overflow = (Cin_sign != tmp_Cin);
 }
@@ -180,7 +181,7 @@ void ALU_controle( bool Op[5], bool opALU, bool bits_controle[7],
                            (Op[0] && Op[1] && Op[2] && !Op[3] && !Op[4]);
     }
 
-    /* Operação é SOMA */
+    /* Operação é Incremento */
     else
     {
         ALUop[0] = 0;
@@ -188,11 +189,11 @@ void ALU_controle( bool Op[5], bool opALU, bool bits_controle[7],
         ALUop[2] = 1;
         bits_controle[0] = 0;
         bits_controle[1] = 0;
-        bits_controle[2] = 0;
+        bits_controle[2] = 1;
         bits_controle[3] = 0;
         bits_controle[4] = 0;
         bits_controle[5] = 0;
-        bits_controle[6] = 0;
+        bits_controle[6] = 1;
     }
 }
 
@@ -282,7 +283,9 @@ void ALU_opera( Word A, Word B, Word C, bool bits_controle[7], bool ALUop[3],
     }
     for (i = 0 ; i < BITS_ARQ ; i++)
     {
-        C[i] = !C[i];
+        if (bits_controle[3]) temp_C[i] = C[i];
+        if (bits_controle[5]) C[i] = !temp_C[i];
+        else C[i] = temp_C[i];
         if (C[i] == true) Flags->zero = 0;
     }
     if ( C[0] == true) Flags->neg = true;
@@ -291,7 +294,5 @@ void ALU_opera( Word A, Word B, Word C, bool bits_controle[7], bool ALUop[3],
     Flags->f_true = !Flags->zero;
     Flags->overflow = Overflow;
 }
-
-/* ========================================================================== */
 
 /* ************************************************************************** */

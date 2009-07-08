@@ -1,3 +1,5 @@
+#ifndef __ALU_H_INCLUDED__
+#define __ALU_H_INCLUDED__
 /*
  * =============================================================================
  *
@@ -40,12 +42,11 @@ void ALU_shift_right_a(Word A, Word C);
 
 void Complemento_de_Dois(Word A, Word Comp);
 
-void ALU_controle( bool Op[5], bool opALU, bool bits_controle[6],
+void ALU_controle( bool Op[5], bool opALU, bool bits_controle[7],
         bool ALUop[3] );
-void ALU_opera( Word A, Word B, Word C, bool bits_controle[6], bool ALUop[3],
+void ALU_opera( Word A, Word B, Word C, bool bits_controle[7], bool ALUop[3],
         Flags_ALU * Flags );
-
-/* ========================================================================== */
 
 /* ************************************************************************** */
 
+#endif /* __ALU_H_INCLUDED__ */

@@ -51,7 +51,7 @@ void Const_Opera_Formato_III( Word *C, bool *R, bool offset[8])
 
 /* ============================== FORMATO II =========================================== */
 
-void Const_Estende_e_Carrega_Constante( Word *C, bool offset[11])
+void Const_Extende_e_Carrega_Constante( Word *C, bool offset[11])
 {
     int i;
     for (i = 0 ; i < BITS_ARQ - 11 ; i++)
@@ -74,7 +74,7 @@ void Opera_Constantes( Registrador *Destino, bool bit_constante, Registrador IR)
             offset[i] = instrucao[(BITS_ARQ - 11) + i];
 
         Word temp;
-        Const_Estende_e_Carrega_Constante( &temp, offset );
+        Const_Extende_e_Carrega_Constante( &temp, offset );
         //Escreve a constante no registrador temporário.
         Reg_Escreve_Word(Destino, temp);
     }

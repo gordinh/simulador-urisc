@@ -2,11 +2,13 @@
 #define __DEFS_H_INCLUDED__
 
 /*
+ * =============================================================================
  *
  *      Arquivo: defs.h
  *        Autor: Leonardo Vilela Teixeira
  *        email: vilela@dcc.ufmg.br
  *
+ * =============================================================================
  */
 
 #include <stdbool.h>

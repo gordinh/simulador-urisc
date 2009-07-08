@@ -34,7 +34,7 @@ TARNAME      	:= tp_grupo4
 TARCONTENT		:= src/ bin/ Makefile
 
 # ------------ list of modules -------------------------------------------------
-MODULES			:= main memoria
+MODULES			:= main registradores memoria alu
 
 # ------------  compiler  ------------------------------------------------------
 CC				:= gcc
@@ -107,12 +107,20 @@ ${OBJDIR}/main.o:	${SRCDIR}/main.c
 			@echo "Compilando Modulo Principal"
 			@${C_FINAL} $(CFLAGS_FINAL) -c $< -o $@
 
+${OBJDIR}/registradores.o:	${SRCDIR}/registradores.c ${SRCDIR}/registradores.h
+		@echo "Compilando Módulo Registradores"
+		@${C_FINAL} $(CFLAGS_FINAL) -c $< -o $@
+
 ${OBJDIR}/memoria.o:	${SRCDIR}/memoria.c ${SRCDIR}/memoria.h
-			@echo "Compilando Módulo Memória"
+		@echo "Compilando Módulo Memória"
+		@${C_FINAL} $(CFLAGS_FINAL) -c $< -o $@
+
+${OBJDIR}/alu.o:	${SRCDIR}/alu.c ${SRCDIR}/alu.h
+		@echo "Compilando ALU"
 		@${C_FINAL} $(CFLAGS_FINAL) -c $< -o $@
 
 #${OBJDIR}/modulo.o:	${SRCDIR}/modulo.c ${SRCDIR}/modulo.h
-#			@echo "Compilando Modulo <NOME>"
+#		@echo "Compilando Modulo <NOME>"
 #		@${C_FINAL} $(CFLAGS_FINAL) -c $< -o $@
 
 # ==============================================================================

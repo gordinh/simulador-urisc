@@ -52,6 +52,8 @@ int main(int argc, char * argv[])
 
     //Fecha o arquivo de entrada.
     fclose(arq_entrada);    
+
+    return EXIT_SUCCESS;
 }
 
 /* ========================================================================== */

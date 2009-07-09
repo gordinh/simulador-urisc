@@ -53,13 +53,13 @@ void Executa_Processamento( Processador *processador, bool *screen, char** dump_
             if((contador == 3) && (*pausa == true)) {
                 contador = 0;
                 printf("Pressione uma tecla para continuar...");
-                getch();
+                getchar();
             }
             es_Imprime_Status_Processador( &processador->banco_reg, &processador->PC, &processador->IR, &processador->flags, &aux);
         }
     }
     //Imprime as 'dump_num_palavras' words a partir da posição 'dump_pos_inicial' da memória.
-    es_Imprime_Pedido_de_Dump( processador->memoria, dump_pos_inicial, dump_num_palavras );
+    es_Imprime_Pedido_de_Dump( processador->memoria, dump_pos_inicial, dump_num_palavras, pausa );
 }
 
 /* ************************************************************************************ */

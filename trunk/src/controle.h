@@ -47,10 +47,12 @@ typedef struct bc_str
 /* ************************************************************************** */
 /* ================================ FUNÇÕES ================================= */
 /* ************************************************************************** */
-/*
-void Clock(bool * Halt, estado * Estado_Atual, Memoria * Mem, 
-        Banco_de_Registradores);
-*/
+
+void Executa_Ciclo(bool * Halt,
+        estado * Atual, Registrador * IR, Bits_Controle * bc,
+        Registrador * PC, Registrador * A, Registrador * B, Flags_ALU * Flags,
+        Registrador * Const, Registrador * Jump, Registrador * Saida_ALU, 
+        Registrador * Dados, Memoria * Mem, Banco_de_Registradores * B_Reg);
 
 
 void Instruction_Fetch(Memoria Mem, Registrador * PC, Registrador * IR);

@@ -100,7 +100,7 @@ void es_Imprime_Pedido_de_Dump( Memoria *M, char** endereco_hexadecimal, int *nu
 
     int i;
     for(i = 0; i < *num_words; i++) {
-        Mem_Le_Endereco(M, endereco_binario, dados);
+        Mem_Le_Endereco(*M, endereco_binario, dados);
         es_Transforma_Binario_em_Hexadecimal(&dados, &dados_hexadecimal);
         printf("%s\n", dados_hexadecimal);
         es_Incrementa_Endereco_em_Word(&endereco_binario);

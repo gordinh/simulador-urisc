@@ -5,8 +5,8 @@
  * =============================================================================
  *
  *      Arquivo: processador.h
- *        Autor: Lucas Alves Guerra França
- *        email: lguerra@dcc.ufmg.br
+ *        Autores: Letícia Lana Cherchiglia, Leonardo Vilela Teixeira, Lucas Alves Guerra França
+ *        email: letslc@dcc.ufmg.br, vilela@dcc.ufmg.br, lguerra@dcc.ufmg.br
  *
  * =============================================================================
  */
@@ -18,6 +18,7 @@
 #include "controle.h"
 #include "constantes.h"
 #include "jumps.h"
+#include "es.h"
 
 #include <stdbool.h>
 
@@ -41,7 +42,8 @@ typedef struct processador_str {
 
 /* ========================================================================== */
 
-void Executa_Processamento( Processador *processador, bool *screen );
+void Inicializa_Processador( Processador *processador );
+void Executa_Processamento( Processador *processador, bool *screen, char** dump_pos_inicial, int *dump_num_palavras );
 
 /* ************************************************************************** */
 

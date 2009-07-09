@@ -5,8 +5,8 @@
  * =============================================================================
  *
  *      Arquivo: registradores.h
- *        Autor: Leonardo Vilela Teixeira
- *        email: vilela@dcc.ufmg.br
+ *        Autores: Letícia Lana Cherchiglia, Leonardo Vilela Teixeira, Lucas Alves Guerra França
+ *        email: letslc@dcc.ufmg.br, vilela@dcc.ufmg.br, lguerra@dcc.ufmg.br
  *
  * =============================================================================
  */

@@ -27,7 +27,7 @@
 int main(int argc, char * argv[])
 {
 
-    //Declara vari?veis e as inicializa por meio da fun??o seguinte.
+    //Declara variaveis e as inicializa por meio da fun??o seguinte.
     char *nome_arq_entrada = NULL;
     char *dump_pos_inicial = NULL;
     int dump_num_palavras = 0;

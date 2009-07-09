@@ -27,6 +27,9 @@ void Inicializa_Processador( Processador *processador )
     }
     processador->PC[BITS_ARQ - 1] = 0;
     processador->IR[BITS_ARQ - 1] = 1;
+    Word Zero = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+    for (i = 0 ; i < NUM_REGS ; i++)
+        Reg_Escreve_Word( &(processador->banco_reg.Regs[i]) , Zero );
 }
 
 /* ==================================================================================== */
@@ -44,7 +47,6 @@ void Executa_Processamento( Processador *processador, bool *screen, char** dump_
             Reg_Le_Word(processador->PC, aux);
 
         Executa_Ciclo(&Halt, &processador->estado_atual, &processador->IR, &processador->bits_controle, &processador->PC, &processador->A, &processador->B, &processador->flags, &processador->Constantes, &processador->Jump, &processador->SaidaALU, &processador->Dados, &processador->memoria, &processador->banco_reg);
-
         if ((*screen == true) && (processador->estado_atual == IF) ) {
             contador++;
             //A cada 3 vezes que o status do processador é imprimido, é pedido ao usuário que pressione uma tecla para continuar a impressão.

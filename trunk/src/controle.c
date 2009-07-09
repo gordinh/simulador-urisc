@@ -277,7 +277,6 @@ void Execute_and_Memory( Memoria * Mem, Bits_Controle bc, Registrador A,
         for (i = 0 ; i < BITS_ARQ ; i++) tmp_B[i] = 0;
         tmp_B[BITS_ARQ-1] = 1;
     }
-
     /* Obtém Opcode */
     Word Inst;
     Reg_Le_Word(IR, Inst);
@@ -296,7 +295,7 @@ void Execute_and_Memory( Memoria * Mem, Bits_Controle bc, Registrador A,
     Reg_Escreve_Word(Saida_ALU, tmp_C);
 /*    int i;
     for (i = 0 ; i < 16 ; i++)
-        printf("%d",tmp_B[i]);
+        printf("%d",tmp_C[i]);
     printf("\n");*/
 }
 

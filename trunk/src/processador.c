@@ -31,9 +31,9 @@ void Inicializa_Processador( Processador *processador )
 
 /* ==================================================================================== */
 
-void Executa_Processamento( Processador *processador, bool *screen, char** dump_pos_inicial, int *dump_num_palavras )
+void Executa_Processamento( Processador *processador, bool *screen, char** dump_pos_inicial, int *dump_num_palavras, bool *pausa )
 {
-
+    int contador = 0;
     //Declara o estado atual como sendo o estado 'Instruction Fetch'.
     processador->estado_atual = IF;
     
@@ -45,8 +45,16 @@ void Executa_Processamento( Processador *processador, bool *screen, char** dump_
 
         Executa_Ciclo(&Halt, &processador->estado_atual, &processador->IR, &processador->bits_controle, &processador->PC, &processador->A, &processador->B, &processador->flags, &processador->Constantes, &processador->Jump, &processador->SaidaALU, &processador->Dados, &processador->memoria, &processador->banco_reg);
 
-        if ((*screen == true) && (processador->estado_atual == IF) )
+        if ((*screen == true) && (processador->estado_atual == IF) ) {
+            contador++;
+            //A cada 3 vezes que o status do processador é imprimido, é pedido ao usuário que pressione uma tecla para continuar a impressão.
+            if((contador == 3) && (*pausa == true)) {
+                contador = 0;
+                printf("Pressione uma tecla para continuar...");
+                getch();
+            }
             es_Imprime_Status_Processador( &processador->banco_reg, &processador->PC, &processador->IR, &processador->flags, &aux);
+        }
     }
     //Imprime as 'dump_num_palavras' words a partir da posição 'dump_pos_inicial' da memória.
     es_Imprime_Pedido_de_Dump( processador->memoria, dump_pos_inicial, dump_num_palavras );

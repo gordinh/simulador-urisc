@@ -48,7 +48,7 @@ int main(int argc, char * argv[])
     es_Le_Arquivo_Armazena_Instrucoes_Memoria(&arq_entrada, &processador.memoria);
 
     //Inicia o processamento.
-    Executa_Processamento(&processador, &screen, &dump_pos_inicial, &dump_num_palavras);
+    Executa_Processamento(&processador, &screen, &dump_pos_inicial, &dump_num_palavras, &pausa);
 
     //Fecha o arquivo de entrada.
     fclose(arq_entrada);    

@@ -116,7 +116,7 @@ void es_Imprime_Pedido_de_Dump( Memoria M, char** endereco_hexadecimal, int *num
         if((*pausa == true) && (contador == 60)) {
             contador = 0;
             printf("Pressione uma tecla para continuar...");
-            getch();
+            getchar();
         }    
         printf("End:%s Valor: %s\n", end_hexadecimal,dados_hexadecimal);
         es_Incrementa_Endereco_em_Word(&endereco_binario);

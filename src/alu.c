@@ -71,7 +71,7 @@ void ALU_xor(Word A, Word B, Word C)
 
 void Complemento_de_Dois(Word A, Word Comp)
 {
-    int i;
+/*    int i;
     bool inverte = false;
     for ( i = BITS_ARQ-1 ; i>=0 ; i--)
     {
@@ -85,6 +85,10 @@ void Complemento_de_Dois(Word A, Word Comp)
             Comp[i] = !A[i];
         }
     }
+*/
+    int i;
+    for (i = 0 ; i < BITS_ARQ ; i++)
+        Comp[i] = !A[i];
 }
 
 /* ========================================================================== */
@@ -274,10 +278,16 @@ void ALU_opera( Word A, Word B, Word C, bool bits_controle[7], bool ALUop[3],
 
     /* Pós operações */
     /* Checa Flags e Inverte resultado, se necessário */
+    Flags->carry = 0;
+    Flags->f_true = 0;
+    Flags->neg = 0;
+    Flags->negzero = 0;
+    Flags->overflow = 0;
+    Flags->zero = 0;
     Word Menos_Um = {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1};
     if (bits_controle[3]) 
     {
-        bool Novo_Overflow;
+        bool Novo_Overflow = false;
         ALU_add(temp_C, Menos_Um, false, &Cout, C, &Novo_Overflow );
         Overflow = Overflow || Novo_Overflow;
     }

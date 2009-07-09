@@ -40,10 +40,6 @@ void Executa_Ciclo(bool * Halt,
         if (Inst[i] != Halt_Inst[i]) *Halt = false;
     }
     if ( *Halt ) return;
-    if ( NOP )
-    {
-        *Atual = IF;
-    }
     /* Estado comum: IF */
     else if (*Atual == IF)
     {
@@ -53,8 +49,13 @@ void Executa_Ciclo(bool * Halt,
     /* Estado comum: ID */
     else if (*Atual == ID)
     {
-        Instruction_Decode(*B_Reg, *IR, A, B, Jump);
-        *Atual = EXE_MEM;
+        if ( NOP )
+        {
+            *Atual = IF;
+        } else {
+            Instruction_Decode(*B_Reg, *IR, A, B, Jump);
+            *Atual = EXE_MEM;
+        }
     }
     /* Estado: EXE/MEM */
     else if (*Atual == EXE_MEM)

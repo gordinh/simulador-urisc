@@ -34,7 +34,7 @@ TARNAME      	:= tp_grupo4
 TARCONTENT		:= src/ bin/ Makefile
 
 # ------------ list of modules -------------------------------------------------
-MODULES			:= main registradores memoria alu controle constantes jumps
+MODULES			:= main registradores memoria alu controle constantes jumps es
 
 # ------------  compiler  ------------------------------------------------------
 CC				:= gcc
@@ -129,6 +129,10 @@ ${OBJDIR}/constantes.o:	${SRCDIR}/constantes.c ${SRCDIR}/constantes.h
 
 ${OBJDIR}/jumps.o:	${SRCDIR}/jumps.c ${SRCDIR}/jumps.h
 		@echo "Compilando Módulo Jumps"
+		@${C_FINAL} $(CFLAGS_FINAL) -c $< -o $@
+
+${OBJDIR}/es.o:	${SRCDIR}/es.c ${SRCDIR}/es.h
+		@echo "Compilando Módulo Entrada/Saída"
 		@${C_FINAL} $(CFLAGS_FINAL) -c $< -o $@
 
 #${OBJDIR}/modulo.o:	${SRCDIR}/modulo.c ${SRCDIR}/modulo.h

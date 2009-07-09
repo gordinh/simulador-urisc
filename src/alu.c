@@ -181,7 +181,7 @@ void ALU_controle( bool Op[5], bool opALU, bool bits_controle[7],
                            (Op[0] && Op[1] && Op[2] && !Op[3] && !Op[4]);
     }
 
-    /* Operação é Incremento */
+    /* Operação é Soma */
     else
     {
         ALUop[0] = 0;
@@ -189,11 +189,11 @@ void ALU_controle( bool Op[5], bool opALU, bool bits_controle[7],
         ALUop[2] = 1;
         bits_controle[0] = 0;
         bits_controle[1] = 0;
-        bits_controle[2] = 1;
+        bits_controle[2] = 0;
         bits_controle[3] = 0;
         bits_controle[4] = 0;
         bits_controle[5] = 0;
-        bits_controle[6] = 1;
+        bits_controle[6] = 0;
     }
 }
 

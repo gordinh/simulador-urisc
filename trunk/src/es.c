@@ -9,6 +9,9 @@
  */
 
 #include "es.h"
+#include "memoria.h"
+#include "registradores.h"
+#include "alu.h"
 
 #include <unistd.h>
 #include <stdio.h>

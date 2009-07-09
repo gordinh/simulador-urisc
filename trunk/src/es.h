@@ -13,6 +13,8 @@
 
 #include "defs.h"
 #include "memoria.h"
+#include "registradores.h"
+#include "alu.h"
 
 #include <stdbool.h>
 #include <stdio.h>

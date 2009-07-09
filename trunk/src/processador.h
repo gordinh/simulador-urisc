@@ -41,7 +41,7 @@ typedef struct processador_str {
 
 /* ========================================================================== */
 
-void Executa_Processamento( Processador *processador );
+void Executa_Processamento( Processador *processador, bool *screen );
 
 /* ************************************************************************** */
 

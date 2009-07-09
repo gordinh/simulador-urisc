@@ -9,6 +9,7 @@
  */
 
 #include "processador.h"
+#include "es.h"
 
 /* ************************************************************************************ */
 /* ============================== PROCESSADOR ========================================= */
@@ -39,16 +40,16 @@ void Executa_Processamento( Processador *processador, bool *screen, char** dump_
     Word aux;
     bool Halt = false;
     while(!Halt) {
-        if(*screen == true)
+        if ((*screen == true) && (processador->estado_atual == IF) )
             Reg_Le_Word(processador->PC, aux);
 
         Executa_Ciclo(&Halt, &processador->estado_atual, &processador->IR, &processador->bits_controle, &processador->PC, &processador->A, &processador->B, &processador->flags, &processador->Constantes, &processador->Jump, &processador->SaidaALU, &processador->Dados, &processador->memoria, &processador->banco_reg);
 
-        if(*screen == true)
-            Imprime_Status_Processador( &processador->banco_reg, &processador->PC, &processador->IR, &processador->flags, &aux);
+        if ((*screen == true) && (processador->estado_atual == IF) )
+            es_Imprime_Status_Processador( &processador->banco_reg, &processador->PC, &processador->IR, &processador->flags, &aux);
     }
     //Imprime as 'dump_num_palavras' words a partir da posição 'dump_pos_inicial' da memória.
-    es_Imprime_Pedido_de_Dump( &processador->memoria, dump_pos_inicial, dump_num_palavras );
+    es_Imprime_Pedido_de_Dump( processador->memoria, dump_pos_inicial, dump_num_palavras );
 }
 
 /* ************************************************************************************ */

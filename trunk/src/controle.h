@@ -57,11 +57,11 @@ void Executa_Ciclo(bool * Halt,
 
 void Instruction_Fetch(Memoria Mem, Registrador * PC, Registrador * IR);
 void Instruction_Decode( Banco_de_Registradores B_Reg, Registrador IR, 
-        Registrador * A, Registrador * B, Registrador Temp );
+        Registrador * A, Registrador * B, Registrador * Temp );
 void Execute_and_Memory( Memoria * Mem, Bits_Controle bc, Registrador A, 
         Registrador B, Registrador Temp, Registrador * Saida_ALU,
         Registrador * Reg_Dados, Registrador * C, Registrador IR,
-        Registrador PC, Flags_ALU * flags );
+        Registrador PC, Flags_ALU * flags, Banco_de_Registradores BR );
 void Write_Back(Banco_de_Registradores * BReg, Registrador Temp, 
         Registrador * PC, Registrador Saida_ALU, Registrador B, 
         Bits_Controle bc, Registrador IR, Registrador Dados, Flags_ALU Flags);

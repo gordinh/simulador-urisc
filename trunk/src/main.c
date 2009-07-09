@@ -2,7 +2,7 @@
  * =============================================================================
  * 
  *      Arquivo: main.c
- *        Autores: Letícia Lana Cherchiglia, Leonardo Vilela Teixeira, Lucas Alves Guerra França
+ *        Autores: Let?cia Lana Cherchiglia, Leonardo Vilela Teixeira, Lucas Alves Guerra Fran?a
  *        email: letslc@dcc.ufmg.br, vilela@dcc.ufmg.br, lguerra@dcc.ufmg.br
  *
  * =============================================================================
@@ -20,20 +20,21 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <stdbool.h>
 
 /* ========================================================================== */
 
 int main(int argc, char * argv[])
 {
 
-    //Declara variáveis e as inicializa por meio da função seguinte.
+    //Declara vari?veis e as inicializa por meio da fun??o seguinte.
     char *nome_arq_entrada = NULL;
     char *dump_pos_inicial = NULL;
     int dump_num_palavras = 0;
     bool screen = false;
     bool pausa = false;
 
-    es_Inicializa_Variaveis_Parametros_Execucao( int *argc, char ***argv, &nome_arq_entrada, &dump_pos_inicial, &dump_num_palavras, &screen, &pausa );
+    es_Inicializa_Variaveis_Parametros_Execucao( &argc,  &argv, &nome_arq_entrada, &dump_pos_inicial, &dump_num_palavras, &screen, &pausa );
 
     //Cria e inicializa um processador.
     Processador processador;
@@ -41,10 +42,10 @@ int main(int argc, char * argv[])
 
     //Abre o arquivo de entrada.
     FILE *arq_entrada;
-    abreArquivoLeitura(&arq_entrada, nome_arq_entrada);
+    es_abre_Arquivo_para_Leitura(&arq_entrada, nome_arq_entrada);
 
-    //Carrega a memória a partir dos dados do arquivo de entrada.
-    es_Le_Arquivo_Armazena_Instrucoes_Memoria(&arq_entrada, &processador->memoria);
+    //Carrega a mem?ria a partir dos dados do arquivo de entrada.
+    es_Le_Arquivo_Armazena_Instrucoes_Memoria(&arq_entrada, &processador.memoria);
 
     //Inicia o processamento.
     Executa_Processamento(&processador, &screen, &dump_pos_inicial, &dump_num_palavras);

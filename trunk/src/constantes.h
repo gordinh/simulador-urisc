@@ -22,16 +22,18 @@
 /* ************************************************************************** */
 
 /* ================================ FORMATO III ============================= */
-void Const_Carrega_Bits_Mais_Significativos( Word *C, bool offset[8]);
-void Const_Carrega_Bits_Menos_Significativos( Word *C, bool offset[8]);
+void Const_Carrega_Bits_Mais_Significativos( Word *C, bool offset[8], Word temp_C);
+void Const_Carrega_Bits_Menos_Significativos( Word *C, bool offset[8], 
+        Word temp_C);
 
-void Const_Opera_Formato_III( Word *C, bool *R, bool offset[8]);
+void Const_Opera_Formato_III( Word *C, bool *R, bool offset[8], Word temp_C);
 
 /* ================================ FORMATO II ============================== */
 void Const_Extende_e_Carrega_Constante( Word *C, bool offset[11]);
 
 /* ========================================================================== */
-void Opera_Constantes( Registrador *Destino, bool bit_constante, Registrador IR);
+void Opera_Constantes( Registrador *Destino, bool bit_constante, Word temp_C,
+        Registrador IR);
 
 /* ************************************************************************** */
 

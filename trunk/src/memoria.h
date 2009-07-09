@@ -5,7 +5,7 @@
  * =============================================================================
  *
  *      Arquivo: memoria.h
- *        Autores: Letícia Lana Cherchiglia, Leonardo Vilela Teixeira, Lucas Alves Guerra França
+ *        Autores: Let?cia Lana Cherchiglia, Leonardo Vilela Teixeira, Lucas Alves Guerra Fran?a
  *        email: letslc@dcc.ufmg.br, vilela@dcc.ufmg.br, lguerra@dcc.ufmg.br
  *
  * =============================================================================

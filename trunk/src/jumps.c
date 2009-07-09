@@ -12,6 +12,8 @@
 #include "registradores.h"
 #include "alu.h"
 
+#include <stdio.h>
+
 /* ************************************************************************************ */
 /* ============================== UNIDADE DE DESVIOS (JUMPS) ========================== */
 /* ************************************************************************************ */
@@ -34,6 +36,12 @@ void Jump_Extende_Sinal_Offset_Desvio( Word *ALU_B, Registrador IR )
         //Extende o sinal do offset.
         for(i = 0; i < BITS_ARQ /2; i ++)
             (*ALU_B)[i] = (*ALU_B)[BITS_ARQ / 2];
+
+        Word MenosUm = {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1};
+        Word Tmp;
+        bool Cout, Overflow;
+        ALU_add(*ALU_B, MenosUm, false, &Cout, Tmp, &Overflow);
+        for (i = 0 ; i < BITS_ARQ ; i++) (*ALU_B)[i] = Tmp[i];
     }
     else {
 
@@ -47,6 +55,11 @@ void Jump_Extende_Sinal_Offset_Desvio( Word *ALU_B, Registrador IR )
             //Extende o sinal do offset.
             for(i = 0; i < BITS_ARQ - 12; i++)
                 (*ALU_B)[i] = (*ALU_B)[BITS_ARQ - 12];
+            Word MenosUm = {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1};
+            Word Tmp;
+            bool Cout, Overflow;
+            ALU_add(*ALU_B, MenosUm, false, &Cout, Tmp, &Overflow);
+            for (i = 0 ; i < BITS_ARQ ; i++) (*ALU_B)[i] = Tmp[i];
         }
         
         //Se o jump é 'jump and link' ou 'jump register'(ambos de formato VI), a word 'ALU_B' é definida como sendo zero.
@@ -55,6 +68,7 @@ void Jump_Extende_Sinal_Offset_Desvio( Word *ALU_B, Registrador IR )
               (*ALU_B)[i] = 0;
         }
     }
+
 }
 
 /* ============================== FORMATO V =========================================== */

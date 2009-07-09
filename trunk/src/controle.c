@@ -13,6 +13,7 @@
 #include "registradores.h"
 #include "jumps.h"
 
+#include <stdio.h>
 #include <stdlib.h>
 
 /* ************************************************************************** */
@@ -31,7 +32,6 @@ void Executa_Ciclo(bool * Halt,
     Reg_Le_Word( *IR, Inst );
     bool NOP = true;
     *Halt = true;
-    
     /* Verifica se é Halt ou NOP*/
     int i;
     for (i = 0 ; i < BITS_ARQ ; i++)
@@ -47,13 +47,13 @@ void Executa_Ciclo(bool * Halt,
     /* Estado comum: IF */
     else if (*Atual == IF)
     {
-        Instruction_Fetch(*Mem, PC, IR);
+        Instruction_Fetch( *Mem, PC, IR);
         *Atual = ID;
     }
     /* Estado comum: ID */
     else if (*Atual == ID)
     {
-        Instruction_Decode(*B_Reg, *IR, A, B, *Jump);
+        Instruction_Decode(*B_Reg, *IR, A, B, Jump);
         *Atual = EXE_MEM;
     }
     /* Estado: EXE/MEM */
@@ -71,6 +71,7 @@ void Executa_Ciclo(bool * Halt,
             bc->OrigBALU[0] = 1;
             bc->OrigBALU[1] = 0;
             bc->OpAlu = 0; 
+            *Atual = WB;
         }
         /* Instruções: ALU e Memoria */
         else if ( !Inst[0] && Inst[1] )
@@ -83,10 +84,12 @@ void Executa_Ciclo(bool * Halt,
                 bc->EscreveMem = 0;
                 bc->SalvaFlags = 0;
                 bc->EscreveReg = 1;
+                bc->OrigDadosEscrita[0] = 0;
+                bc->OrigDadosEscrita[1] = 1;
                 *Atual = WB;
             }
             /* Store */
-            else if ( Inst[5] && Inst[6] && Inst[7] && Inst[8] && Inst[9] )
+            else if ( Inst[5] && !Inst[6] && Inst[7] && Inst[8] && !Inst[9] )
             {
                 bc->EscrevePC = 0;
                 bc->LeMem = 0;
@@ -124,21 +127,21 @@ void Executa_Ciclo(bool * Halt,
             bc->OrigDadosEscrita[1] = 0;
             /* Tipo 2 ou Tipo 3 */
             if (Inst[1])
-                bc->Constante = 0;
-            else
                 bc->Constante = 1;
+            else
+                bc->Constante = 0;
             bc->SalvaFlags = 0;
             bc->EscreveReg = 1;
             *Atual = WB;
         }
 
         Execute_and_Memory(Mem, *bc, *A, *B, *Jump, Saida_ALU, Dados, 
-                Const, *IR, *PC, Flags);
+                Const, *IR, *PC, Flags, *B_Reg);
     }
     /* Write Back */
     else if (*Atual == WB)
     {
-        Write_Back(B_Reg, *Jump, PC, *Saida_ALU, *B, *bc, *IR, *Dados, *Flags);
+        Write_Back(B_Reg, *Const, PC, *Saida_ALU, *B, *bc, *IR, *Dados, *Flags);
         *Atual = IF;
     }
 
@@ -152,7 +155,7 @@ void Executa_Ciclo(bool * Halt,
  *  Busca a próxima instrução no PC e a 
  *  grava no IR (Registrador de Instrução). Incrementa PC;
  */
-void Instruction_Fetch(Memoria Mem, Registrador * PC, Registrador * IR)
+void Instruction_Fetch(Memoria  Mem, Registrador * PC, Registrador * IR)
 {
     /* Lê a instrução e armazena no IR */
     Word End_Instrucao;
@@ -163,16 +166,16 @@ void Instruction_Fetch(Memoria Mem, Registrador * PC, Registrador * IR)
 
     /* Incrementa PC */
     Word Nova_Instrucao;
+    Word Um = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1};
     bool bits_controle[7];
     bool ALUop[3];
     Flags_ALU tmp_Flags;
     ALU_controle(NULL, false, bits_controle, ALUop);
-    ALU_opera(Instrucao, Instrucao, Nova_Instrucao, 
+    ALU_opera(End_Instrucao, Um, Nova_Instrucao, 
             bits_controle, ALUop, &tmp_Flags);
 
     /* Escreve novo PC */
     Reg_Escreve_Word( PC, Nova_Instrucao );
-
 }
 
 /* ========================================================================== */
@@ -183,7 +186,7 @@ void Instruction_Fetch(Memoria Mem, Registrador * PC, Registrador * IR)
  *  Decodifica a instrução, lê o conteúdo dos registradores.
  */
 void Instruction_Decode( Banco_de_Registradores B_Reg, Registrador IR, 
-        Registrador * A, Registrador * B, Registrador Temp )
+        Registrador * A, Registrador * B, Registrador * Temp )
 {
     /* Lê instrução */
     Word Inst;
@@ -198,8 +201,8 @@ void Instruction_Decode( Banco_de_Registradores B_Reg, Registrador IR,
 
     /* Extensão de Sinal dos offsets de Jumps */
     Word TempWord;
-    Reg_Le_Word(Temp, TempWord);
     Jump_Extende_Sinal_Offset_Desvio( &TempWord, IR );
+    Reg_Escreve_Word( Temp, TempWord );
 
     /* Armazena valores nos registradores auxiliares */
     Reg_Escreve_Word(A, Valor_A);
@@ -217,7 +220,7 @@ void Instruction_Decode( Banco_de_Registradores B_Reg, Registrador IR,
 void Execute_and_Memory( Memoria * Mem, Bits_Controle bc, Registrador A, 
         Registrador B, Registrador Temp, Registrador * Saida_ALU,
         Registrador * Reg_Dados, Registrador * C, Registrador IR,
-        Registrador PC, Flags_ALU * flags )
+        Registrador PC, Flags_ALU * flags, Banco_de_Registradores BR )
 {
     /* LêMem => Lê da memória */
     if (bc.LeMem)
@@ -245,10 +248,14 @@ void Execute_and_Memory( Memoria * Mem, Bits_Controle bc, Registrador A,
         Word Dados;
         Reg_Le_Word(B, Dados);
         Mem_Escreve_Endereco(Mem, End, Dados);
+
     }
 
     /* Constante => Cria a constante e armazena em C */
-    Opera_Constantes( C, bc.Constante, IR);
+    Word Const_C;
+    bool reg_num[3] = {IR[2], IR[3], IR[4]};
+    B_Reg_Le_Word(BR, reg_num, Const_C);
+    Opera_Constantes( C, bc.Constante, Const_C, IR);
 
     /* ALU => Realiza operações */
     bool bc_ALU[7];
@@ -274,7 +281,7 @@ void Execute_and_Memory( Memoria * Mem, Bits_Controle bc, Registrador A,
     /* Obtém Opcode */
     Word Inst;
     Reg_Le_Word(IR, Inst);
-    bool Opcode[5] = { Inst[10], Inst[9], Inst[8], Inst[7], Inst[6] };
+    bool Opcode[5] = { Inst[5], Inst[6], Inst[7], Inst[8], Inst[9] };
 
     /* ALU Controle => gera bits de controle da ALU */
     /* ALU opera => Opera e armazena resultado em temp_C */
@@ -287,6 +294,10 @@ void Execute_and_Memory( Memoria * Mem, Bits_Controle bc, Registrador A,
 
     /* Salva resultado da ALU */
     Reg_Escreve_Word(Saida_ALU, tmp_C);
+/*    int i;
+    for (i = 0 ; i < 16 ; i++)
+        printf("%d",tmp_B[i]);
+    printf("\n");*/
 }
 
 /* ========================================================================== */
@@ -332,6 +343,7 @@ void Write_Back(Banco_de_Registradores * BReg, Registrador Temp,
             Reg_Le_Word(Saida_ALU, Valor);
         }
         B_Reg_Escreve_Word(BReg, End, Valor);
+
     }
 }
 

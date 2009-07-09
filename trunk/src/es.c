@@ -110,6 +110,70 @@ void es_Imprime_Pedido_de_Dump( Memoria *M, char** endereco_hexadecimal, int *nu
 
 /* ===================================================================================== */
 
+void es_Imprime_Status_Processador( Banco_de_Registradores *Banco, Registrador *PC, Registrador *IR, Flags_ALU *flags, Word *Instrucao_Executada)
+{
+    printf("-----------------------------------------------------------------------\nStatus do Processador\n\nREGISTRADORES FLAGS\n\n");
+    bool reg_num[3];
+    Word aux;
+    char* dados_hexadecimal = (char*) calloc(5, sizeof(char));
+
+    reg_num[0] = 0; reg_num[1] = 0; reg_num[2] = 0;
+    B_Reg_Le_Word(*Banco, reg_num, aux);
+    es_Transforma_Binario_em_Hexadecimal(&aux, &dados_hexadecimal);
+    printf("Reg0 = %s Neg = %d\n", dados_hexadecimal, flags->neg);
+    
+    reg_num[0] = 0; reg_num[1] = 0; reg_num[2] = 1;
+    B_Reg_Le_Word(*Banco, reg_num, aux);
+    es_Transforma_Binario_em_Hexadecimal(&aux, &dados_hexadecimal);
+    printf("Reg1 = %s Zero = %d\n", dados_hexadecimal, flags->zero);
+
+    reg_num[0] = 0; reg_num[1] = 1; reg_num[2] = 0;
+    B_Reg_Le_Word(*Banco, reg_num, aux);
+    es_Transforma_Binario_em_Hexadecimal(&aux, &dados_hexadecimal);
+    printf("Reg2 = %s Carry = %d\n", dados_hexadecimal, flags->carry);
+
+    reg_num[0] = 0; reg_num[1] = 1; reg_num[2] = 1;
+    B_Reg_Le_Word(*Banco, reg_num, aux);
+    es_Transforma_Binario_em_Hexadecimal(&aux, &dados_hexadecimal);
+    printf("Reg3 = %s NegZero = %d\n", dados_hexadecimal, flags->negzero);
+
+    reg_num[0] = 1; reg_num[1] = 0; reg_num[2] = 0;
+    B_Reg_Le_Word(*Banco, reg_num, aux);
+    es_Transforma_Binario_em_Hexadecimal(&aux, &dados_hexadecimal);
+    printf("Reg4 = %s True = %d\n", dados_hexadecimal, flags->f_true);
+
+    reg_num[0] = 1; reg_num[1] = 0; reg_num[2] = 1;
+    B_Reg_Le_Word(*Banco, reg_num, aux);
+    es_Transforma_Binario_em_Hexadecimal(&aux, &dados_hexadecimal);
+    printf("Reg5 = %s Overflow = %d\n", dados_hexadecimal, flags->overflow);
+
+    reg_num[0] = 1; reg_num[1] = 1; reg_num[2] = 0;
+    B_Reg_Le_Word(*Banco, reg_num, aux);
+    es_Transforma_Binario_em_Hexadecimal(&aux, &dados_hexadecimal);
+    printf("Reg6 = %s\n", dados_hexadecimal);
+
+    reg_num[0] = 1; reg_num[1] = 1; reg_num[2] = 1;
+    B_Reg_Le_Word(*Banco, reg_num, aux);
+    es_Transforma_Binario_em_Hexadecimal(&aux, &dados_hexadecimal);
+    printf("Reg7 = %s\n", dados_hexadecimal);
+
+    Reg_Le_Word(*PC, aux);
+    es_Transforma_Binario_em_Hexadecimal(&aux, &dados_hexadecimal);
+    printf("PC = %s\n", dados_hexadecimal);
+
+    Reg_Le_Word(*IR, aux);
+    es_Transforma_Binario_em_Hexadecimal(&aux, &dados_hexadecimal);
+    printf("IR = %s\n", dados_hexadecimal);
+
+    es_Transforma_Binario_em_Hexadecimal(Instrucao_Executada, &dados_hexadecimal);
+    printf("Instrucao executada = %s\n\n", dados_hexadecimal);
+
+    printf("-----------------------------------------------------------------------\n\n");
+
+    free(dados_hexadecimal);
+
+/* ===================================================================================== */
+
 void es_Transforma_Hexadecimal_em_Binario( Word *forma_binaria, char** forma_hexadecimal )
 {
     int i;
@@ -214,6 +278,7 @@ void es_Incrementa_Endereco_em_Word( Word *endereco )
                 (*endereco)[i] = 1;
                 for(j = i + 1; j < BITS_ARQ; j++)
                     (*endereco)[j] = 0;
+                return;
             }
             else 
                 sinal = true;

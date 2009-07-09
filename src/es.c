@@ -35,7 +35,7 @@ void es_Inicializa_Variaveis_Parametros_Execucao( int *argc, char ***argv, char*
 {
     int opt = 0;
 
-    opt = getopt( *argc, *argv, "e:d:n:s:p:");
+    opt = getopt( *argc, *argv, "e:d:n:sp");
     while (opt  != -1) {
         switch (opt) {
             case 'e':
@@ -57,7 +57,7 @@ void es_Inicializa_Variaveis_Parametros_Execucao( int *argc, char ***argv, char*
                 printf( "Uso de parametro invalido" );
                 exit(1);
         }
-        opt = getopt( *argc, *argv, "e:d:n:s:p:");
+        opt = getopt( *argc, *argv, "e:d:n:sp");
     }
 }
 
@@ -95,20 +95,23 @@ void es_Le_Arquivo_Armazena_Instrucoes_Memoria( FILE **entrada, Memoria *M )
 
 /* ===================================================================================== */
 
-void es_Imprime_Pedido_de_Dump( Memoria *M, char** endereco_hexadecimal, int *num_words )
+void es_Imprime_Pedido_de_Dump( Memoria M, char** endereco_hexadecimal, int *num_words )
 {
     Word endereco_binario, dados;
     char* dados_hexadecimal = (char*) calloc(5, sizeof(char));
+    char* end_hexadecimal = (char*) calloc(5, sizeof(char));
     es_Transforma_Hexadecimal_em_Binario(&endereco_binario, endereco_hexadecimal);
 
     int i;
     for(i = 0; i < *num_words; i++) {
-        Mem_Le_Endereco(*M, endereco_binario, dados);
+        Mem_Le_Endereco(M, endereco_binario, dados);
         es_Transforma_Binario_em_Hexadecimal(&dados, &dados_hexadecimal);
-        printf("%s\n", dados_hexadecimal);
+        es_Transforma_Binario_em_Hexadecimal(&endereco_binario, &end_hexadecimal);
+        printf("%s %s\n", end_hexadecimal,dados_hexadecimal);
         es_Incrementa_Endereco_em_Word(&endereco_binario);
     }
     free(dados_hexadecimal);
+    free(end_hexadecimal);
 }
 
 /* ===================================================================================== */
@@ -174,7 +177,7 @@ void es_Imprime_Status_Processador( Banco_de_Registradores *Banco, Registrador *
     printf("-----------------------------------------------------------------------\n\n");
 
     free(dados_hexadecimal);
-
+}
 /* ===================================================================================== */
 
 void es_Transforma_Hexadecimal_em_Binario( Word *forma_binaria, char** forma_hexadecimal )
@@ -262,6 +265,7 @@ void es_Transforma_Binario_em_Hexadecimal( Word *forma_binaria, char** forma_hex
         int valor = (8 *(*forma_binaria)[i * 4]) + (4 *(*forma_binaria)[(i * 4) + 1]) + (2 *(*forma_binaria)[(i * 4) + 2]) + (*forma_binaria)[(i * 4) + 3];
         (*forma_hexadecimal)[i] = hexadecimais[valor];
     }
+
 }
 
 /* ===================================================================================== */
@@ -269,6 +273,7 @@ void es_Transforma_Binario_em_Hexadecimal( Word *forma_binaria, char** forma_hex
 //Incrementa o endereço presente na word 'endereco' em 1.
 void es_Incrementa_Endereco_em_Word( Word *endereco )
 {
+    
     int i, j;
     bool sinal = false;
     for(i = BITS_ARQ - 1; i >= 0; i--) {
@@ -287,5 +292,8 @@ void es_Incrementa_Endereco_em_Word( Word *endereco )
                 sinal = true;
         }
     }
+
 }
+
 /* ************************************************************************************ */
+

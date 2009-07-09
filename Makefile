@@ -25,7 +25,7 @@ LANGUAGE	   := C
 
 # ------------  name of the executable and folders  ----------------------------
 EXECUTABLE      := bin/uRISC
-PARAMS			:= 
+PARAMS			:= -e bin/in.txt -d 0000 -n 15 -p -s
 OBJDIR			:= bin/obj
 SRCDIR			:= src
 
@@ -34,7 +34,7 @@ TARNAME      	:= tp_grupo4
 TARCONTENT		:= src/ bin/ Makefile
 
 # ------------ list of modules -------------------------------------------------
-MODULES			:= main registradores memoria alu controle constantes jumps es
+MODULES			:= main registradores memoria alu controle constantes jumps es processador
 
 # ------------  compiler  ------------------------------------------------------
 CC				:= gcc
@@ -133,6 +133,10 @@ ${OBJDIR}/jumps.o:	${SRCDIR}/jumps.c ${SRCDIR}/jumps.h
 
 ${OBJDIR}/es.o:	${SRCDIR}/es.c ${SRCDIR}/es.h
 		@echo "Compilando Módulo Entrada/Saída"
+		@${C_FINAL} $(CFLAGS_FINAL) -c $< -o $@
+
+${OBJDIR}/processador.o:	${SRCDIR}/processador.c ${SRCDIR}/processador.h
+		@echo "Compilando Módulo Processador"
 		@${C_FINAL} $(CFLAGS_FINAL) -c $< -o $@
 
 #${OBJDIR}/modulo.o:	${SRCDIR}/modulo.c ${SRCDIR}/modulo.h

@@ -11,41 +11,45 @@
 #include "constantes.h"
 #include "registradores.h"
 
+#include <stdio.h>
+
 /* ************************************************************************************ */
 /* ============================== UNIDADE DE CONSTANTES =============================== */
 /* ************************************************************************************ */
 
 /* ============================== FORMATO III ========================================= */
 
-void Const_Carrega_Bits_Mais_Significativos( Word *C, bool offset[8])
+void Const_Carrega_Bits_Mais_Significativos( Word *C, bool offset[8], 
+        Word temp_C)
 {
     int i;
     for (i = 0 ; i < BITS_ARQ / 2 ; i++)
         (*C)[i] = offset[i];
     for (i = BITS_ARQ / 2; i < BITS_ARQ; i++)
-        (*C)[i] = 0;
+        (*C)[i] = temp_C[i];
 }
 
 /* ===================================================================================== */
 
-void Const_Carrega_Bits_Menos_Significativos( Word *C, bool offset[8])
+void Const_Carrega_Bits_Menos_Significativos( Word *C, bool offset[8],
+        Word temp_C)
 {
     int i;
     for (i = 0 ; i < BITS_ARQ / 2 ; i++)
-        (*C)[i] = 0;
+        (*C)[i] = temp_C;
     for (i = BITS_ARQ / 2; i < BITS_ARQ; i++)
         (*C)[i] = offset[i - (BITS_ARQ / 2)];
 }
 
 /* ===================================================================================== */
 
-void Const_Opera_Formato_III( Word *C, bool *R, bool offset[8])
+void Const_Opera_Formato_III( Word *C, bool *R, bool offset[8], Word temp_C)
 {
     /* Checa o valor do bit R para decidir se carrega a constante nos bits mais ou menos significativos */
     if ( (*R) == 0 )
-      Const_Carrega_Bits_Menos_Significativos(C, offset);
+      Const_Carrega_Bits_Menos_Significativos(C, offset, temp_C);
     else
-      Const_Carrega_Bits_Mais_Significativos(C, offset);
+      Const_Carrega_Bits_Mais_Significativos(C, offset, temp_C);
 
 }
 
@@ -62,7 +66,8 @@ void Const_Extende_e_Carrega_Constante( Word *C, bool offset[11])
 
 /* ===================================================================================== */
 
-void Opera_Constantes( Registrador *Destino, bool bit_constante, Registrador IR)
+void Opera_Constantes( Registrador *Destino, bool bit_constante, 
+        Word temp_C, Registrador IR)
 {
     int i;
     Word instrucao;
@@ -87,7 +92,7 @@ void Opera_Constantes( Registrador *Destino, bool bit_constante, Registrador IR)
             offset[i] = instrucao[(BITS_ARQ - 8) + i];
 
         Word temp;
-        Const_Opera_Formato_III( &temp, &R, offset );
+        Const_Opera_Formato_III( &temp, &R, offset, temp_C );
         //Escreve a constante no registrador temporário.
         Reg_Escreve_Word(Destino, temp);
     }

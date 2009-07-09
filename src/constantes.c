@@ -36,7 +36,7 @@ void Const_Carrega_Bits_Menos_Significativos( Word *C, bool offset[8],
 {
     int i;
     for (i = 0 ; i < BITS_ARQ / 2 ; i++)
-        (*C)[i] = temp_C;
+        (*C)[i] = temp_C[i];
     for (i = BITS_ARQ / 2; i < BITS_ARQ; i++)
         (*C)[i] = offset[i - (BITS_ARQ / 2)];
 }

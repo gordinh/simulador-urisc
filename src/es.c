@@ -35,6 +35,9 @@ void es_Inicializa_Variaveis_Parametros_Execucao( int *argc, char ***argv, char*
 {
     int opt = 0;
 
+    *dump_pos_inicial = "";
+    *num_palavras = 0;
+
     opt = getopt( *argc, *argv, "e:d:n:sp");
     while (opt  != -1) {
         switch (opt) {
@@ -115,7 +118,7 @@ void es_Imprime_Pedido_de_Dump( Memoria M, char** endereco_hexadecimal, int *num
             printf("Pressione uma tecla para continuar...");
             getch();
         }    
-        printf("%s %s\n", end_hexadecimal,dados_hexadecimal);
+        printf("End:%s Valor: %s\n", end_hexadecimal,dados_hexadecimal);
         es_Incrementa_Endereco_em_Word(&endereco_binario);
     }
     free(dados_hexadecimal);

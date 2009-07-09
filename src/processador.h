@@ -43,7 +43,7 @@ typedef struct processador_str {
 /* ========================================================================== */
 
 void Inicializa_Processador( Processador *processador );
-void Executa_Processamento( Processador *processador, bool *screen, char** dump_pos_inicial, int *dump_num_palavras );
+void Executa_Processamento( Processador *processador, bool *screen, char** dump_pos_inicial, int *dump_num_palavras, bool *pausa );
 
 /* ************************************************************************** */
 

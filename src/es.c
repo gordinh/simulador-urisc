@@ -95,7 +95,7 @@ void es_Le_Arquivo_Armazena_Instrucoes_Memoria( FILE **entrada, Memoria *M )
 
 /* ===================================================================================== */
 
-void es_Imprime_Pedido_de_Dump( Memoria M, char** endereco_hexadecimal, int *num_words )
+void es_Imprime_Pedido_de_Dump( Memoria M, char** endereco_hexadecimal, int *num_words, bool *pausa )
 {
     Word endereco_binario, dados;
     char* dados_hexadecimal = (char*) calloc(5, sizeof(char));
@@ -103,10 +103,18 @@ void es_Imprime_Pedido_de_Dump( Memoria M, char** endereco_hexadecimal, int *num
     es_Transforma_Hexadecimal_em_Binario(&endereco_binario, endereco_hexadecimal);
 
     int i;
+    int contador = 0;
     for(i = 0; i < *num_words; i++) {
+        contador++;
         Mem_Le_Endereco(M, endereco_binario, dados);
         es_Transforma_Binario_em_Hexadecimal(&dados, &dados_hexadecimal);
         es_Transforma_Binario_em_Hexadecimal(&endereco_binario, &end_hexadecimal);
+        //A cada 60 linhas impressas, pede ao usuário que pressione uma tecla para continuar a impressão.
+        if((*pausa == true) && (contador == 60)) {
+            contador = 0;
+            printf("Pressione uma tecla para continuar...");
+            getch();
+        }    
         printf("%s %s\n", end_hexadecimal,dados_hexadecimal);
         es_Incrementa_Endereco_em_Word(&endereco_binario);
     }

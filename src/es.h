@@ -28,7 +28,7 @@ void es_abre_Arquivo_para_Leitura( FILE **arquivo, char* nome_arquivo );
 void es_Inicializa_Variaveis_Parametros_Execucao( int *argc, char ***argv, char** nome_arq_entrada, char** dump_pos_inicial, int *num_palavras, bool *screen, bool *pausa );
 
 void es_Le_Arquivo_Armazena_Instrucoes_Memoria( FILE **entrada, Memoria *M );
-void es_Imprime_Pedido_de_Dump( Memoria M, char** endereco_hexadecimal, int *num_words );
+void es_Imprime_Pedido_de_Dump( Memoria M, char** endereco_hexadecimal, int *num_words, bool *pausa );
 void es_Imprime_Status_Processador( Banco_de_Registradores *Banco, Registrador *PC, Registrador *IR, Flags_ALU *flags, Word *Instrucao_Executada);
 
 /* ========================================================================== */

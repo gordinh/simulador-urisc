@@ -1,0 +1,1 @@
+Simulador de um processador da arquitetura uRISC, de 16 bits.
